@@ -4,6 +4,10 @@
 # mypy
 .mypy_cache/
 
-# Python
+# Distribution
 sml_test.egg-info/
+build/
+dist/
+
+# Python
 __pycache__/
