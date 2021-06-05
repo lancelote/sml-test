@@ -1,0 +1,9 @@
+black==21.5b2
+flake8==3.9.2
+mypy==0.812
+pre-commit==2.12.1
+pur==5.4.1
+pytest==6.2.4
+reorder-python-imports==2.5.0
+setup-cfg-fmt==1.17.0
+twine==3.4.1
