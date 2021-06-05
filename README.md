@@ -1,6 +1,6 @@
 # sml-test
 
-Most basic Standard ML test runner
+Bare-bones Standard ML test runner written in Python
 
 ## Assumptions
 
@@ -9,7 +9,7 @@ Most basic Standard ML test runner
 - A test file has `*test.sml` name
 - A test file has `use "impl.sml";` on top
   - Where `impl.sml` is implementation being tested
-- A test case is a boolean variable `test*` in test file
+- A test case is a boolean variable with `test*` name in the test file
 
 ### Example Test
 
@@ -35,14 +35,30 @@ val test1_1 = is_older ((1,2,3),(2,3,4)) = true
 
 ```console
 $ sml-test --help
-...
+Usage: sml-test [OPTIONS]
+
+  Recursively execute all SML tests
+
+Options:
+  --version      Show the version and exit.
+  -v, --verbose  Print raw SML output
+  --help         Show this message and exit.
 ```
 
 ### Example Test Run
 
 ```console
 $ sml-test
-...
+Running in /Users/user/git/prog_lang_a
+OK=81, FAIL=1, ERR=5
+week1/hw/hw1test.sml
+  val test1_3 = false : bool
+week0/hw/hw0test.sml
+  hw0test.sml:9.14-9.20 Error: unbound variable or constructor: double
+  hw0test.sml:11.14-11.20 Error: unbound variable or constructor: double
+  hw0test.sml:13.14-13.20 Error: unbound variable or constructor: triple
+  hw0test.sml:15.14-15.20 Error: unbound variable or constructor: triple
+  hw0test.sml:17.14 Error: unbound variable or constructor: f
 ```
 
 ## Requirements
@@ -52,10 +68,10 @@ $ sml-test
 
 ## Contributions & Suggestions
 
-Please feel free to contribute a missing functionality or suggest features,
+Please feel free to contribute a missing functionality or suggest changes,
 e.g.
 
-- Different tests layout
+- Support for different tests layouts
 - Support for older Python versions
 - Support for different OS
 

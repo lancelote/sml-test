@@ -1,2 +1,9 @@
 # PyCharm
 .idea/
+
+# mypy
+.mypy_cache/
+
+# Python
+sml_test.egg-info/
+__pycache__/
