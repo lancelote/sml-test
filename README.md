@@ -65,6 +65,7 @@ week0/hw/hw0test.sml
 
 - Python 3.8+
 - You need `sml` executable to be present in `PATH`
+  - Feel free to grab [one from New Jersey University][2]
 
 ## Contributions & Suggestions
 
@@ -76,3 +77,4 @@ e.g.
 - Support for different OS
 
 [1]: https://pip.pypa.io/en/latest/user_guide/#user-installs
+[2]: https://www.smlnj.org/
