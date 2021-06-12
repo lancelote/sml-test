@@ -30,7 +30,8 @@ def test_err(sml_test_file, cli_runner):
         )
     )
     result = cli_runner.invoke(cli)
-    assert_result(result, err=1, exit_code=1)
+    # Two errors: mismatch type and unbound variable
+    assert_result(result, err=2, exit_code=1)
 
 
 def test_ok(sml_test_file, cli_runner):
@@ -71,7 +72,7 @@ def test_verbose(sml_test_file, cli_runner):
     assert result.exit_code == 0
 
 
-def test_impl_error(sml_test_file, sml_impl_file, cli_runner):
+def test_unknown_symbol_in_impl(sml_test_file, sml_impl_file, cli_runner):
     sml_impl_file.write_text(
         dedent(
             """
@@ -90,3 +91,34 @@ def test_impl_error(sml_test_file, sml_impl_file, cli_runner):
     )
     result = cli_runner.invoke(cli)
     assert_result(result, err=4, exit_code=1)
+
+
+def test_type_mismatch_in_impl(sml_test_file, sml_impl_file, cli_runner):
+    sml_impl_file.write_text(
+        dedent(
+            """
+                fun list_product(xs : int list) =
+                  if null xs
+                  then 1
+                  else hd xs * list_product(tl xs)
+
+                fun countdown(x : int) =
+                  if x = 0
+                  then []
+                  else x :: countdown(x - 1)
+
+                fun factorial(x : int) =
+                    list_product countdown x
+            """
+        )
+    )
+    sml_test_file.write_text(
+        dedent(
+            """
+                use "sample.sml";
+                val test9_2 = factorial 4 = 24
+            """
+        )
+    )
+    result = cli_runner.invoke(cli)
+    assert_result(result, err=1, exit_code=1)
