@@ -29,7 +29,7 @@ val test1_1 = is_older ((1,2,3),(2,3,4)) = true
 
 > The package will be installed in your user home directory. See `pip`
 > documentation about [user installs][1]. You need the installation directory
-> to be present in `PATH` to run `clean-docker` from the terminal.
+> to be present in `PATH` to run `sml-test` from the terminal.
 
 ## Usage
 
