@@ -51,7 +51,7 @@ def report(results: list[Result], verbose: bool = False) -> None:
         elif result.failed_lines or result.error_lines:
             click.echo(result.test_file)
             for line in chain(result.failed_lines, result.error_lines):
-                click.echo(f"  {line}", err=True)
+                click.echo(f"  {line}")
 
 
 def main(verbose: bool) -> int:
