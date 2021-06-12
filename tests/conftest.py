@@ -16,8 +16,19 @@ def cli_runner():
 
 
 @pytest.fixture
-def sml_test_file(request, tmp_path):
-    sml_file = tmp_path / "sample_test.sml"
+def tmp_work_dir(request, tmp_path):
     os.chdir(tmp_path)
-    yield sml_file
+    yield tmp_path
     os.chdir(request.config.invocation_dir)
+
+
+@pytest.fixture
+def sml_test_file(tmp_work_dir):
+    sml_file = tmp_work_dir / "sample_test.sml"
+    yield sml_file
+
+
+@pytest.fixture
+def sml_impl_file(tmp_work_dir):
+    sml_file = tmp_work_dir / "sample.sml"
+    yield sml_file

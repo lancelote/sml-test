@@ -7,7 +7,7 @@ import click
 
 PASS = re.compile(r"^val test.*= true : bool$")
 FAIL = re.compile(r"^val test.*= false : bool$")
-ERR = re.compile(r"^.*test\.sml:[.\d\-]* Error: [\w ]*: \w+$")
+ERR = re.compile(r"^.*\.sml:[.\d\-]* Error: [\w ]*: \w+$")
 
 
 class Result:

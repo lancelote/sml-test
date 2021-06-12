@@ -69,3 +69,24 @@ def test_verbose(sml_test_file, cli_runner):
     result = cli_runner.invoke(cli, ["-v"])
     assert "val test_1 = true : bool" in result.output
     assert result.exit_code == 0
+
+
+def test_impl_error(sml_test_file, sml_impl_file, cli_runner):
+    sml_impl_file.write_text(
+        dedent(
+            """
+                fun sum_pair_list(xs : (int * int) list) =
+                    sum_list(firsts xs) + sum_list(seconds xs)
+            """
+        )
+    )
+    sml_test_file.write_text(
+        dedent(
+            """
+                use "sample.sml";
+                val test_1 = sum_pair_list([(1, 2), (3, 4)]) = 10
+            """
+        )
+    )
+    result = cli_runner.invoke(cli)
+    assert_result(result, err=4, exit_code=1)
