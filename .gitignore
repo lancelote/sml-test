@@ -4,6 +4,12 @@
 # mypy
 .mypy_cache/
 
+# tox
+.tox/
+
+# pytest
+.pytest_cache/
+
 # Distribution
 sml_test.egg-info/
 build/
