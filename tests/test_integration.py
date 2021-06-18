@@ -122,3 +122,31 @@ def test_type_mismatch_in_impl(sml_test_file, sml_impl_file, cli_runner):
     )
     result = cli_runner.invoke(cli)
     assert_result(result, err=1, exit_code=1)
+
+
+def test_runtime_exception(sml_test_file, sml_impl_file, cli_runner):
+    sml_impl_file.write_text(
+        dedent(
+            """
+                fun max1(xs : int list) =
+                  if null xs
+                  then NONE
+                  else
+                    let val tl_ans = max1(tl xs)
+                    in if isSome tl_ans andalso valOf tl_ans > hd xs
+                       then tl_ans
+                       else SOME (hd xs)
+                    end
+            """
+        )
+    )
+    sml_test_file.write_text(
+        dedent(
+            """
+                use "sample.sml";
+                val test3 = valOf(max1 []);
+            """
+        )
+    )
+    result = cli_runner.invoke(cli)
+    assert_result(result, err=1, exit_code=1)

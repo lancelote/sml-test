@@ -7,7 +7,8 @@ import click
 
 PASS = re.compile(r"^val test.*= true : bool$")
 FAIL = re.compile(r"^val test.*= false : bool$")
-ERR = re.compile(r"^.*\.sml:[.\d\-]* Error: .*$")
+ERRO = re.compile(r"^.*\.sml:[.\d\-]* Error: .*$")
+EXCP = re.compile(r"^uncaught exception .*$")
 
 
 class Result:
@@ -38,7 +39,7 @@ def run(test_file: Path) -> Result:
             result.passed_lines.append(line)
         elif re.match(FAIL, line):
             result.failed_lines.append(line)
-        elif re.match(ERR, line):
+        elif re.match(ERRO, line) or re.match(EXCP, line):
             result.error_lines.append(line)
 
     return result
