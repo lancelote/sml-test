@@ -3,9 +3,10 @@ from textwrap import dedent
 from sml_test.cli import cli
 
 
-def assert_result(result, ok=0, fail=0, err=0, exit_code=0):
+def assert_result(result, ok=0, fail=0, err=0, exit_code=0, contains=""):
     assert f"OK={ok}, FAIL={fail}, ERR={err}" in result.output
     assert result.exit_code == exit_code
+    assert contains in result.output
 
 
 def test_ok_and_err(sml_test_file, cli_runner):
@@ -67,9 +68,9 @@ def test_verbose(sml_test_file, cli_runner):
             """
         )
     )
+    error_message = "val test_1 = true : bool"
     result = cli_runner.invoke(cli, ["-v"])
-    assert "val test_1 = true : bool" in result.output
-    assert result.exit_code == 0
+    assert_result(result, ok=1, exit_code=0, contains=error_message)
 
 
 def test_unknown_symbol_in_impl(sml_test_file, sml_impl_file, cli_runner):
@@ -150,3 +151,10 @@ def test_runtime_exception(sml_test_file, sml_impl_file, cli_runner):
     )
     result = cli_runner.invoke(cli)
     assert_result(result, err=1, exit_code=1)
+
+
+def test_usage_fail(sml_test_file, cli_runner):
+    sml_test_file.write_text('use "foo_bar.sml";')
+    error_message = "use failed: 'foo_bar.sml'"
+    result = cli_runner.invoke(cli)
+    assert_result(result, err=1, exit_code=1, contains=error_message)

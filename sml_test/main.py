@@ -7,8 +7,9 @@ import click
 
 PASS = re.compile(r"^val test.*= true : bool$")
 FAIL = re.compile(r"^val test.*= false : bool$")
-ERRO = re.compile(r"^.*\.sml:[.\d\-]* Error: .*$")
-EXCP = re.compile(r"^uncaught exception .*$")
+ERROR = re.compile(r"^.*\.sml:[.\d\-]* Error: .*$")
+EXCEPTION = re.compile(r"^uncaught exception .*$")
+USE_FAIL = re.compile(r"^\[use failed: '.+' does not exist or is unreadable]")
 
 
 class Result:
@@ -39,7 +40,11 @@ def run(test_file: Path) -> Result:
             result.passed_lines.append(line)
         elif re.match(FAIL, line):
             result.failed_lines.append(line)
-        elif re.match(ERRO, line) or re.match(EXCP, line):
+        elif re.match(ERROR, line):
+            result.error_lines.append(line)
+        elif re.match(EXCEPTION, line):
+            result.error_lines.append(line)
+        elif re.match(USE_FAIL, line):
             result.error_lines.append(line)
 
     return result
